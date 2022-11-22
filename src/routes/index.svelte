@@ -7,4 +7,7 @@
   <br />
   This is the file at /src/routes/index.svelte (route /) - You can look at /src/routes/other.svelte
   (/other) <Link to="/other">here!</Link>
+  <br/>
+  <br/>
+  <Link to="/apistats">api stats</Link>
 </p>
