@@ -6,11 +6,11 @@ export type Snowflake = string;
 /**
  * @deprecated Unknown or unspecified type
  */
-export type API_Unknown = any;
+export type APIUnknown = any;
 /** https://discord.com/developers/docs/resources/user#user-object */
-export type API_User = API_Unknown;
-export type API_Member = {
-  user?: API_User,
+export type APIUser = APIUnknown;
+export type APIMember = {
+  user?: APIUser,
   nick?: string,
   /** the member's {@link https://discord.com/developers/docs/reference#image-formatting guild avatar hash} */
   avatar?: string,
@@ -21,11 +21,11 @@ export type API_Member = {
   /** when the user started boosting thet guild */
   premium_since?: ISO8601,
 }
-export type API_Role = API_Unknown;
-export type API_Embed = API_Unknown;
-export type API_Channel = API_Unknown
+export type APIRole = APIUnknown;
+export type APIEmbed = APIUnknown;
+export type APIChannel = APIUnknown
 /** {@link https://discord.com/developers/docs/topics/gateway-events#activity-object-activity-structure docs} */
-export type API_Activity = {
+export type APIActivity = {
   /** Activity's name */
   name: string,
   /** {@link https://discord.com/developers/docs/topics/gateway-events#activity-object-activity-types Activity Type} */
@@ -36,9 +36,9 @@ export type API_Activity = {
   created_at: number,
   // TODO: INCOMPLETE, FINISH THIS
 };
-export type API_Component = API_Unknown;
+export type APIComponent = APIUnknown;
 /** {@link https://discord.com/developers/docs/topics/gateway-events#client-status-object docs} */
-export type API_ClientStatus = {
+export type APIClientStatus = {
   /** User's status set for an active desktop (Windows, Linux, Mac) application session */
   desktop?: string,
   /** User's status set for an active mobile (iOS, Android) application session */
@@ -47,7 +47,7 @@ export type API_ClientStatus = {
   web?: string,
 }
 /** {@link https://discord.com/developers/docs/resources/sticker#sticker-item-object docs} */
-export type API_Sticker = {
+export type APISticker = {
   /** {@link https://discord.com/developers/docs/reference#image-formatting id of the sticker} */
   id: Snowflake,
   /** name of the sticker */
@@ -56,14 +56,14 @@ export type API_Sticker = {
   format_type: integer,
 };
 /** {@link https://discord.com/developers/docs/resources/emoji docs} */
-export type API_Emoji = {
+export type APIEmoji = {
   id?: Snowflake,
   /** Can only be null in reaction emoji objects */
   name?: string,
   /** array of role object ids - roles allowed to use this emoji */
   roles?: Snowflake[]
   /** user who created */
-  user?: API_User,
+  user?: APIUser,
   /** whether this emoji must be wrapped in :s */
   require_colons?: boolean,
   /* whether this emoji is managed */
@@ -73,14 +73,14 @@ export type API_Emoji = {
   /** whether this emoji can be used, may be false due to loss of server boosts */
   available: boolean,
 };
-/** {@see https://discord.com/developers/docs/resources/channel#message-object docs} */
-export type API_Message = {
+/** {@link https://discord.com/developers/docs/resources/channel#message-object docs} */
+export type APIMessage = {
   /** id of the message */
   id: Snowflake,
   /** id of the channel */
   channel_id: Snowflake,
   /** sender, may not be complet or avaialble at all */
-  author?: Partial<API_User>,
+  author?: Partial<APIUser>,
   /** content of the message, empty if bot embed */
   content: string,
   /** when this message was sent, ISO8601 timestamp */
@@ -92,14 +92,14 @@ export type API_Message = {
   /** mentions @everyone */
   mentions_everyone: boolean,
   /** users specifically mentioned */
-  mentions: API_User[]
+  mentions: APIUser[]
   /** roles specifiically mentioned */
-  mention_roles: API_Role[],
+  mention_roles: APIRole[],
   /**
    * Channels specifically mentioned in this message
    * Not all channel mentions in a message will appear in mention_channels. Only textual channels that are visible to everyone in a lurkable guild will ever be included. Only crossposted messages (via Channel Following) currently include mention_channels at all. If no mentions in the message meet these requirements, this field will not be sent.
    */
-  mention_channels: API_Channel[],
+  mention_channels: APIChannel[],
   // TODO: INCOMPLETE, FINISH THIS
   /** pinned? */
   pinned: boolean,
@@ -108,17 +108,17 @@ export type API_Message = {
   /** https://discord.com/developers/docs/resources/channel#message-object-message-types */
   type: number;
   /** https://discord.com/developers/docs/resources/channel#message-object-message-activity-structure */
-  activity?: API_Unknown,
+  activity?: APIUnknown,
   // TODO: INCOMPLETE, FINISH THIS
   /** available if a thread was started from this message */
-  thread?: API_Channel,
+  thread?: APIChannel,
   /** list of components, if any */
-  components?: API_Component[],
+  components?: APIComponent[],
   /** stickers, if any */
-  sticker_items?: API_Sticker[],
+  sticker_items?: APISticker[],
   /** A generally increasing integer (there may be gaps or duplicates) that represents the approximate position of the message in a thread, it can be used to estimate the relative position of the message in a thread in company with total_message_sent on parent thread */
   position?: number
-} & Record<string, API_Unknown>
+} & Record<string, APIUnknown>
 /** {@link https://discord.com/developers/docs/topics/gateway-events#message-create docs} */
 export type IDispatchEvent = (
 // ////////////// PRESENCE EVENT ////////////// //
@@ -128,15 +128,15 @@ export type IDispatchEvent = (
   /** data - {@link https://discord.com/developers/docs/topics/gateway-events#presence-update docs} */
   d: {
     /** User who's presence is being updated */
-    user: API_User,
+    user: APIUser,
     /** Guild ID */
     guild_id: Snowflake,
     /** Status */
     status: 'idle' | 'dnd' | 'online' | 'offline',
     /** activity list */
-    activities: API_Activity[],
+    activities: APIActivity[],
     /** User's platform-dependent status */
-    client_status: API_ClientStatus
+    client_status: APIClientStatus
   }
 } |
 // ////////////// MESSAGE EVENTS ////////////// //
@@ -144,25 +144,25 @@ export type IDispatchEvent = (
   /** event type */
   t: 'MESSAGE_CREATE',
   /** data - {@link https://discord.com/developers/docs/topics/gateway-events#message-create docs} */
-  d: API_Message & {
+  d: APIMessage & {
     /** ID of the guild the message was sent in - unless it is an ephemeral message */
     guild_id?: Snowflake,
     /** Member properties for this message's author. Missing for ephemeral messages and messages from webhooks */
-    member?: Partial<API_Member>,
+    member?: Partial<APIMember>,
     /** Users specifically mentioned in the message - array of user objects, with an additional partial member field */
-    mentions: API_Unknown,
+    mentions: APIUnknown,
   }
 } | {
   /** event type */
   t: 'MESSAGE_UPDATE',
   /** data - {@link https://discord.com/developers/docs/topics/gateway-events#message-update docs} - Unlike creates, message updates may contain only a subset of the full message object payload (but will always contain an ID and channel_id). */
-  d: Partial<API_Message> & {
+  d: Partial<APIMessage> & {
     /** ID of the guild the message was sent in - unless it is an ephemeral message */
     guild_id?: Snowflake,
     /** Member properties for this message's author. Missing for ephemeral messages and messages from webhooks */
-    member?: Partial<API_Member>,
+    member?: Partial<APIMember>,
     /** Users specifically mentioned in the message - array of user objects, with an additional partial member field */
-    mentions: API_Unknown,
+    mentions: APIUnknown,
   }
 } | {
   /** event type */
@@ -191,9 +191,9 @@ export type IDispatchEvent = (
     channel_id: Snowflake,
     message_id: Snowflake,
     guild_id?: Snowflake,
-    member?: API_Member,
+    member?: APIMember,
     /** Emoji used to react - {@link https://discord.com/developers/docs/resources/emoji#emoji-object-standard-emoji-example example} */
-    emoji: Partial<API_Emoji>
+    emoji: Partial<APIEmoji>
   }
 } | {
   /** event type */
@@ -205,7 +205,7 @@ export type IDispatchEvent = (
     message_id: Snowflake,
     guild_id?: Snowflake,
     /** Emoji used to react - {@link https://discord.com/developers/docs/resources/emoji#emoji-object-standard-emoji-example example} */
-    emoji: Partial<API_Emoji>
+    emoji: Partial<APIEmoji>
   }
 } | {
   /** event type */
@@ -224,7 +224,7 @@ export type IDispatchEvent = (
     channel_id: Snowflake,
     message_id: Snowflake,
     guild_id?: Snowflake,
-    emoji: Partial<API_Emoji>
+    emoji: Partial<APIEmoji>
   }
 }) & {
   /** opcode, always 0 for dispatch */
@@ -241,7 +241,7 @@ export type IHelloEvent = {
   }
 }
 
-export interface GatewayEvents {
+export type GatewayEvents = {
   /** An event was dispatched. */
   'DISPATCH': (data: IDispatchEvent) => void;
   /** Fired periodically by the client to keep the connection alive. */
@@ -254,4 +254,8 @@ export interface GatewayEvents {
   'HELLO': (data: IHelloEvent) => void;
   /** Sent in response to receiving a heartbeat to acknowledge that it has been received. */
   'HEARTBEATACK': () => void;
-}
+  /** Non-API event (internal) - Websocket Connection Established */
+  'WEBSOCKETCONNECT': ()=>void;
+  /** Non-API event (internal) - Websocket Connection Closed */
+  'WEBSOCKETCLOSE': ()=>void;
+};

@@ -14,19 +14,28 @@ export interface GatewayWebsocket {
   ): boolean;
 }
 export class GatewayWebsocket extends EventEmitter {
+  /** Raw Websocket, don't use this unless yk what ur doing */
   socket: WebSocket;
+  /** Auth Token */
   token: string;
+  /** Should we reload the page on {@link OPCODE.RECONNECT} */
   reloadOnFail = true;
+  /**
+   * @param opcode {@link GATEWAY_OPCODE Opcode} to send to the server
+   * @param data Data to send
+   */
   send(opcode: OPCODE, data: Record<any, any>) {
     this.socket.send(JSON.stringify({
       'op': opcode,
       'd': data
     }));
   }
+  /** Closes the Websocket Connection */
   close(){
     if (this.socket.readyState !== this.socket.CLOSED)
       this.socket.close();
   }
+  /** Establishes a new Websocket Connection - You do not need to rebind to any events (excluding ones on {@link GatewayWebsocket.socket}) after calling this */
   newSocket() {
     this.socket = new WebSocket('wss://gateway.discord.gg/?encoding=json&v=9');
     const socket = this.socket;
@@ -91,8 +100,15 @@ export class GatewayWebsocket extends EventEmitter {
         break;
       }
     });
-    socket.addEventListener('close', ()=>clearInterval(inter));
+    socket.addEventListener('close', ()=>{
+      clearInterval(inter);
+      this.emit('WEBSOCKETCLOSE');
+    });
+    socket.addEventListener('open', ()=>this.emit('WEBSOCKETCONNECT'));
   }
+  /**
+   * @param token Auth token
+   */
   constructor(token:string){
     if (!token)
       throw new Error('no token');
