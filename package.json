@@ -13,6 +13,7 @@
     "@norathefurry/eslint-config": "^1.1.2",
     "@sveltejs/vite-plugin-svelte": "^1.1.0",
     "@tsconfig/svelte": "^3.0.0",
+    "@types/html-escaper": "^3.0.0",
     "@types/showdown": "^2.0.0",
     "eslint": "^8.28.0",
     "sass": "^1.56.1",
@@ -26,6 +27,7 @@
   },
   "dependencies": {
     "events": "^3.3.0",
+    "html-escaper": "2",
     "showdown": "^2.1.0",
     "svelte-routing": "^1.6.0"
   }

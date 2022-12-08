@@ -7,6 +7,7 @@
   import type { Message } from "../api/types/Message";
   import { ResolveUser, type User } from "../api/types/User";
   import * as showdown from "showdown";
+  import * as htmlEscaper from "html-escaper";
   const converter = new showdown.Converter({
     simpleLineBreaks: true,
     simplifiedAutoLink: true,
@@ -117,8 +118,7 @@
 
   const sendHandler = (message: string) => {
     if (!message) return;
-    console.log(message.split("\\n").join("\n"));
-    cur.send(message);
+    cur.send(htmlEscaper.escape(message).replaceAll("\\n", "\n"));
   };
 </script>
 
