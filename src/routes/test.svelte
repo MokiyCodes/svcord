@@ -14,6 +14,9 @@
     emoji: true,
     excludeTrailingPunctuationFromURLs: true,
     tasklists: false,
+    openLinksInNewWindow: true,
+    ghCodeBlocks: true,
+    ghMentions: true,
   });
 
   let token: string = localStorage.getItem("token");
