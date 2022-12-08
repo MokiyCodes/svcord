@@ -1,22 +1,22 @@
 <script lang="ts">
-  import { Router, Route } from 'svelte-routing';
+  import { Router, Route } from "svelte-routing";
   // imported routes
-  import index from './routes/index.svelte';
-  import other from './routes/other.svelte';
-  import Apistats from './routes/apistats.svelte';
+  import index from "./routes/index.svelte";
+  import test from "./routes/test.svelte";
+  import Apistats from "./routes/apistats.svelte";
 
   // get base route
-  import { baseRoute } from './BaseRoute';
+  import { baseRoute } from "./BaseRoute";
 
   // route list - include leading /
   const Routes: Record<string, any> = {
-    '/apistats': Apistats,
-    '/other': other,
-    '/': index, // index should be last!
+    "/apistats": Apistats,
+    "/test": test,
+    "/": index, // index should be last!
   };
 
   // routing + whatnot
-  export let url = '';
+  export let url = "";
 </script>
 
 <Router {url}>

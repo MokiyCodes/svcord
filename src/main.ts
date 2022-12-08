@@ -30,6 +30,9 @@ window.debugapi = (token:string)=>{
       evs[v.t] = v;
     p.innerText = `Connected ${Math.floor((Date.now() - connectedAt) / 1000)} seconds ago\n\n\nLast Event Type: ${v.t}\nEvent Count: ${eventCount}\nOpcodes Received: ${opcodes.join(', ')}\nEvents Received: ${events.join(', ')}`;
   });
+  Client.active.on('ConnectionEstablished', ()=>p.innerText = 'WS Connected');
+  Client.active.on('Hello', ()=>p.innerHTML = 'Completed <code>HELLO</code> Handshake - Waiting for events');
+  Client.active.on('Ready', ()=>p.innerHTML = 'Received <code>READY</code> data!');
 };
 
 // render shit

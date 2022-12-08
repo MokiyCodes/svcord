@@ -2,7 +2,7 @@ import { GATEWAY_OPCODE as OPCODE } from './opcodes';
 import { EventEmitter } from 'events';
 import type {
   GatewayEvents, IDispatchEvent
-} from './api';
+} from './apitypes';
 
 export interface GatewayWebsocket {
   on<U extends keyof GatewayEvents>(

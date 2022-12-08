@@ -1,18 +1,28 @@
+/*!
+ * @license "THE BEER-WARE LICENSE" (Revision 42):
+ * <pleasego@nuke.africa> wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return | YieldingExploiter
+ */
+/* inter-font-by-default.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #24273a;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  scroll-behavior: smooth;
 }
 
 a {
@@ -22,6 +32,22 @@ a {
 }
 a:hover {
   color: #535bf2;
+}
+
+.msgCnt p {
+  margin: 0 0;
+}
+.msgCnt pre {
+  background: #181926;
+  padding: 8px 8px;
+  max-width: 75vw;
+  overflow-y: auto;
+  border-radius: 4px;
+}
+.msgCnt :not(pre) > code {
+  background: #181926;
+  padding: 2px 2px;
+  border-radius: 4px;
 }
 
 body {
@@ -42,10 +68,8 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 button {
