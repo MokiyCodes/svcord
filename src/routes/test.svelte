@@ -109,7 +109,8 @@
     "Unknown Name";
   let searchQuery: string = "";
 
-  const showdownParse = (text: string) => converter.makeHtml(text);
+  const showdownParse = (text: string) =>
+    converter.makeHtml(htmlEscaper.escape(text));
 
   const searchChanged = () => {
     const CSQ = document.querySelector("#ChannelSearchQuery");
@@ -121,7 +122,7 @@
 
   const sendHandler = (message: string) => {
     if (!message) return;
-    cur.send(htmlEscaper.escape(message).replaceAll("\\n", "\n"));
+    cur.send(message.replaceAll("\\n", "\n"));
   };
 </script>
 
