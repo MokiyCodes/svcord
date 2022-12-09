@@ -281,7 +281,9 @@
             style="bottom:0; --margin-left: -8px"
             class="inputbox noborderright"
             on:keypress={(event) => {
-              const m = document.querySelector("#message");
+              const m = document.querySelector(
+                '.inputbox.noborderright[name="text"][type="text"]'
+              );
               if (event.key === "Enter") {
                 // @ts-ignore
                 if (event.shiftKey) return (m.value = m.value + "\\n");
@@ -339,11 +341,18 @@
       overflow-y: auto;
       scroll-behavior: smooth;
       overflow-x: hidden;
-      & > div {
+      & > div > div {
         background: #1e2030;
         padding: 1px 0;
-        margin-bottom: 0.5em;
+        margin-bottom: 0.3rem;
         cursor: pointer;
+        p {
+          padding: 8px 0;
+          margin: 0 0;
+          strong {
+            font-weight: 700;
+          }
+        }
       }
     }
     .messageArea,
@@ -393,8 +402,8 @@
       .msgPfp {
         img {
           border-radius: 100% 100%;
-          height: 32px;
-          width: 32px;
+          height: 42px;
+          width: 42px;
         }
       }
       .msgBlock:last-child {
