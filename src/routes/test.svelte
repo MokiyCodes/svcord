@@ -2,7 +2,7 @@
   import { fly } from "svelte/transition";
   import type { Client } from "../api";
   import * as ClientAPI from "../api";
-  import { ChannelType, type Snowflake } from "../api/apitypes";
+  import { ChannelType, EmbedType, type Snowflake } from "../api/apitypes";
   import type { Channel } from "../api/types/Channel";
   import type { Message } from "../api/types/Message";
   import { ResolveUser, type User } from "../api/types/User";
@@ -217,35 +217,51 @@
               <div class="msgCnt msgBlock">
                 <h2>{msg.user.tag}</h2>
                 {#if msg.content}
-                  <!-- @ts-ignore -->
-                  {@html showdownParse(msg.content)}
+                  <span class="__md">
+                    {@html showdownParse(msg.content)}
+                  </span>
                 {/if}
                 {#each msg.embeds as embed}
                   <div
                     class="embed"
                     data-type={embed.type}
-                    style={"--embed-colour:" +
+                    style={"--embed-colour: #" +
                       (embed.color?.toString(16) ?? "1a1a1a")}
                   >
-                    {#if embed.title}
-                      {#if embed.url}
-                        <a href={embed.url} target="_blank" rel="noreferrer">
-                          <h2>{embed.title}</h2>
-                        </a>
-                      {:else}
-                        <h2>{embed.title}</h2>
+                    <div
+                      style={embed.type === EmbedType.Link
+                        ? "display: inline-block"
+                        : "display: block"}
+                    >
+                      {#if embed.title}
+                        {#if embed.url}
+                          <a href={embed.url} target="_blank" rel="noreferrer">
+                            <h2 style="display:block">{embed.title}</h2>
+                          </a>
+                        {:else}
+                          <h2 style="display:block">{embed.title}</h2>
+                        {/if}
                       {/if}
-                    {/if}
-                    {#if embed.description}
-                      <p class="description">
-                        {embed.description}
-                      </p>
-                    {/if}
+                      {#if embed.description}
+                        <p class="description">
+                          {embed.description}
+                        </p>
+                      {/if}
+                    </div>
                     {#if embed.thumbnail}
                       <img
                         src={embed.thumbnail.proxy_url}
                         alt="Embedded"
-                        style={`max-width:${embed.thumbnail.width}px;max-height:${embed.thumbnail.height}px;width:calc(70vw - 16px);border-radius:8px`}
+                        style={`max-width:${Math.min(
+                          embed.thumbnail.width,
+                          embed.type === EmbedType.Link ? 35 : 500
+                        )}px;max-height:${
+                          embed.thumbnail.height
+                        }px;width:calc(70vw - 16px);border-radius:8px;${
+                          embed.type === EmbedType.Link
+                            ? "display: inline-block; position: relative; right: 0; bottom: 0; margin-left: 8px"
+                            : ""
+                        }`}
                       />
                     {/if}
                     {(() => {
@@ -388,6 +404,7 @@
         padding: 8px 8px;
         border-radius: 8px;
         background: #181926;
+        border-left: 2px solid var(--embed-colour);
         width: max-content;
         max-width: 70vw;
       }
